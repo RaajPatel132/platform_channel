@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:platform_channel/method_channel_service.dart';
 
 void main() {
   runApp(const MyApp());
@@ -30,8 +31,19 @@ class BtteryScreen extends StatelessWidget {
       appBar: AppBar(
         title: const Text('Battery'),
       ),
-      body: const Center(
-        child: Text('Hello')
+      body: Center(
+        child: FutureBuilder<int>(
+              future: MethodChannlService.getBatteryLevel(),
+              builder: (context, snapshot) {
+                if (snapshot.hasData) {
+                  return Center(
+                    child: Text('Battery Level: ${snapshot.data}%'),
+                  );
+                }
+                return const Center(
+                  child: CircularProgressIndicator(),
+                );
+              }),
       )
     );
   }
