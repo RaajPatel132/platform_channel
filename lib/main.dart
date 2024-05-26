@@ -28,23 +28,24 @@ class BtteryScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Battery'),
-      ),
-      body: Center(
-        child: FutureBuilder<int>(
+        appBar: AppBar(
+          title: const Text('Battery'),
+        ),
+        body: Center(
+          child: FutureBuilder<int>(
               future: MethodChannlService.getBatteryLevel(),
               builder: (context, snapshot) {
                 if (snapshot.hasData) {
                   return Center(
                     child: Text('Battery Level: ${snapshot.data}%'),
                   );
+                } else if (snapshot.hasError) {
+                  return Text(snapshot.error.toString());
                 }
                 return const Center(
                   child: CircularProgressIndicator(),
                 );
               }),
-      )
-    );
+        ));
   }
 }
